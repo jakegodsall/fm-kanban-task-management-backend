@@ -1,25 +1,15 @@
-package com.jakegodsall.kanbantaskmanagerbackend.entity;
+package com.jakegodsall.kanbantaskmanagerbackend.payload;
 
-import jakarta.persistence.*;
+import com.jakegodsall.kanbantaskmanagerbackend.entity.CompletionStatus;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-@Entity
-public class Task extends BaseEntity {
+public class TaskDto extends BaseDto {
     private String title;
-
     private String description;
-
-    @Enumerated(EnumType.ORDINAL)
     private CompletionStatus status;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<SubTask> subtasks;
-
-    public Task() {
-    }
+    private List<SubTaskDto> subTasks;
 
     public String getTitle() {
         return title;
@@ -45,26 +35,25 @@ public class Task extends BaseEntity {
         this.status = status;
     }
 
-    public List<SubTask> getSubtasks() {
-        return subtasks;
+    public List<SubTaskDto> getSubTasks() {
+        return subTasks;
     }
 
-    public void setSubtasks(List<SubTask> subtasks) {
-        this.subtasks = subtasks;
+    public void setSubTasks(List<SubTaskDto> subTasks) {
+        this.subTasks = subTasks;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Task task = (Task) o;
-        return Objects.equals(title, task.title) && Objects.equals(description, task.description) && status == task.status && Objects.equals(subtasks, task.subtasks);
+        TaskDto taskDto = (TaskDto) o;
+        return Objects.equals(title, taskDto.title) && Objects.equals(description, taskDto.description) && status == taskDto.status && Objects.equals(subTasks, taskDto.subTasks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, description, status, subtasks);
+        return Objects.hash(title, description, status, subTasks);
     }
 
     @Override

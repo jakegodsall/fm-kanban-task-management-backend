@@ -62,8 +62,10 @@ public class SubTaskServiceImpl implements SubTaskService {
                 () -> new ResourceNotFoundException("Subtask", "id", id)
         );
 
-        // Update last modified date
+        // Update fields
         subTaskFromDb.setLastModifiedDate(LocalDateTime.now());
+        subTaskFromDb.setTitle(dto.getTitle());
+        subTaskFromDb.setIsCompleted(dto.getIsCompleted());
 
         // Store in the database
         SubTask updatedSubTask = subTaskRepository.save(subTaskFromDb);

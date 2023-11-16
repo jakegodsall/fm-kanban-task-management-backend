@@ -28,7 +28,7 @@ public class SubTaskController {
         return new ResponseEntity<>(subTasks, HttpStatus.OK);
     }
 
-    @PostMapping(PATH_V1_SUBTASK_ID)
+    @PostMapping(PATH_V1_SUBTASK)
     public ResponseEntity<SubTaskDto> createSubTask(@RequestBody SubTaskDto subTaskDto) {
         SubTaskDto createdSubTaskDto = subTaskService.createSubTask(subTaskDto);
         URI location = ServletUriComponentsBuilder

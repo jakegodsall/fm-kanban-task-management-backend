@@ -6,9 +6,11 @@ import com.jakegodsall.kanbantaskmanagerbackend.mapper.SubTaskMapper;
 import com.jakegodsall.kanbantaskmanagerbackend.mapper.TaskMapper;
 import com.jakegodsall.kanbantaskmanagerbackend.payload.SubTaskDto;
 import com.jakegodsall.kanbantaskmanagerbackend.payload.TaskDto;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class TaskMapperImpl implements TaskMapper {
 
     private SubTaskMapper subTaskMapper;

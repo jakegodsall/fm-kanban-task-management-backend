@@ -2,6 +2,7 @@ package com.jakegodsall.kanbantaskmanagerbackend.service.impl;
 
 import com.jakegodsall.kanbantaskmanagerbackend.entity.SubTask;
 import com.jakegodsall.kanbantaskmanagerbackend.exception.ResourceNotFoundException;
+import com.jakegodsall.kanbantaskmanagerbackend.mapper.SubTaskMapper;
 import com.jakegodsall.kanbantaskmanagerbackend.payload.SubTaskDto;
 import com.jakegodsall.kanbantaskmanagerbackend.repository.SubTaskRepository;
 import com.jakegodsall.kanbantaskmanagerbackend.service.SubTaskService;
@@ -14,23 +15,25 @@ import java.util.Optional;
 public class SubTaskServiceImpl implements SubTaskService {
 
     private final SubTaskRepository subTaskRepository;
+    private final SubTaskMapper subTaskMapper;
 
-    public SubTaskServiceImpl(SubTaskRepository subTaskRepository) {
+    public SubTaskServiceImpl(SubTaskRepository subTaskRepository, SubTaskMapper subTaskMapper) {
         this.subTaskRepository = subTaskRepository;
+        this.subTaskMapper = subTaskMapper;
     }
 
     @Override
     public List<SubTaskDto> getAllSubTasks() {
         return subTaskRepository.findAll()
                 .stream()
-                .map(this::mapToDto)
+                .map(subTaskMapper::subTaskToSubTaskDto)
                 .toList();
     }
 
     @Override
     public SubTaskDto createSubTask(SubTaskDto subTaskDto) {
         // Convert from DTO to entity
-        SubTask subTask = mapToEntity(subTaskDto);
+        SubTask subTask = subTaskMapper.subTaskDtoToSubTask(subTaskDto);
 
         // Set dates
         LocalDateTime now = LocalDateTime.now();
@@ -41,7 +44,7 @@ public class SubTaskServiceImpl implements SubTaskService {
         SubTask subTaskFromDb = subTaskRepository.save(subTask);
 
         // Map to DTO and return
-        return mapToDto(subTaskFromDb);
+        return subTaskMapper.subTaskToSubTaskDto(subTaskFromDb);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class SubTaskServiceImpl implements SubTaskService {
         SubTask subTaskFromDb = subTaskRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Subtask", "id", id)
         );
-        return Optional.of(mapToDto(subTaskFromDb));
+        return Optional.of(subTaskMapper.subTaskToSubTaskDto(subTaskFromDb));
     }
 
     @Override
@@ -66,7 +69,7 @@ public class SubTaskServiceImpl implements SubTaskService {
         SubTask updatedSubTask = subTaskRepository.save(subTaskFromDb);
 
         // Map to DTO and return
-        return mapToDto(updatedSubTask);
+        return subTaskMapper.subTaskToSubTaskDto(updatedSubTask);
     }
 
     @Override
@@ -78,27 +81,5 @@ public class SubTaskServiceImpl implements SubTaskService {
 
         // Delete the entity
         subTaskRepository.delete(subTaskFromDb);
-    }
-
-    private SubTaskDto mapToDto(SubTask subTask) {
-        SubTaskDto subTaskDto = new SubTaskDto();
-        subTaskDto.setId(subTask.getId());
-        subTaskDto.setCreatedDate(subTask.getCreatedDate());
-        subTaskDto.setLastModifiedDate(subTask.getLastModifiedDate());
-        subTaskDto.setTitle(subTask.getTitle());
-        subTaskDto.setIsCompleted(subTask.getIsCompleted());
-
-        return subTaskDto;
-    }
-
-    private SubTask mapToEntity(SubTaskDto subTaskDto) {
-        SubTask subTask = new SubTask();
-        subTask.setId(subTaskDto.getId());
-        subTask.setCreatedDate(subTaskDto.getCreatedDate());
-        subTask.setLastModifiedDate(subTaskDto.getLastModifiedDate());
-        subTask.setTitle(subTaskDto.getTitle());
-        subTask.setIsCompleted(subTaskDto.getIsCompleted());
-
-        return subTask;
     }
 }

@@ -2,16 +2,15 @@ package com.jakegodsall.kanbantaskmanagerbackend.controller;
 
 import com.jakegodsall.kanbantaskmanagerbackend.payload.TaskDto;
 import com.jakegodsall.kanbantaskmanagerbackend.service.TaskService;
-import org.apache.coyote.Response;
-import org.hibernate.usertype.LoggableUserType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.concurrent.locks.ReentrantLock;
 
 @RestController
 public class TaskController {
@@ -32,7 +31,8 @@ public class TaskController {
     }
 
     @PostMapping(PATH_V1_TASK)
-    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<?> createTask(
+            @Validated @RequestBody TaskDto taskDto) {
         TaskDto createdTask = taskService.createTask(taskDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -58,8 +58,8 @@ public class TaskController {
     }
 
     @DeleteMapping(PATH_V1_TASK_ID)
-    public ResponseEntity<Void> deleteTaskById(@PathVariable long id) {
-        taskService.deleteTaskById(id);
+    public ResponseEntity<Void> deleteTaskById(@PathVariable long taskId) {
+        taskService.deleteTaskById(taskId);
         return ResponseEntity.noContent().build();
     }
 }

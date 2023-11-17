@@ -2,8 +2,11 @@ package com.jakegodsall.kanbantaskmanagerbackend.controller;
 
 import com.jakegodsall.kanbantaskmanagerbackend.payload.SubTaskDto;
 import com.jakegodsall.kanbantaskmanagerbackend.service.SubTaskService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,7 +32,7 @@ public class SubTaskController {
     }
 
     @PostMapping(PATH_V1_SUBTASK)
-    public ResponseEntity<SubTaskDto> createSubTask(@RequestBody SubTaskDto subTaskDto) {
+    public ResponseEntity<?> createSubTask(@Validated @RequestBody SubTaskDto subTaskDto) {
         SubTaskDto createdSubTaskDto = subTaskService.createSubTask(subTaskDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

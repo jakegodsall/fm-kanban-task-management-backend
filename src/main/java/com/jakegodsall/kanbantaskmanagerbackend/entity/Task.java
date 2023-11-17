@@ -2,9 +2,9 @@ package com.jakegodsall.kanbantaskmanagerbackend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Task extends BaseEntity {
@@ -15,8 +15,9 @@ public class Task extends BaseEntity {
     @Enumerated(EnumType.ORDINAL)
     private CompletionStatus status;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<SubTask> subtasks;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id")
+    private List<SubTask> subtasks = new ArrayList<>();
 
     public Task() {
     }

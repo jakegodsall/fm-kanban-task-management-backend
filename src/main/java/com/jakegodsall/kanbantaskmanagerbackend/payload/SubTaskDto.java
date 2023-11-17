@@ -1,10 +1,16 @@
 package com.jakegodsall.kanbantaskmanagerbackend.payload;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class SubTaskDto extends BaseDto {
+    @NotNull(message = "is required")
+    @NotBlank(message = "cannot be blank")
     private String title;
+    @NotNull(message = "is required")
     private Boolean isCompleted;
 
     public SubTaskDto() {

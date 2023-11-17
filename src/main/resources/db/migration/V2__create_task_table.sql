@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS task;
 
 CREATE TABLE task (
-    id BIGINT NOT NULL UNIQUE,
-    created_date TIMESTAMP NOT NULL,
-    last_modified_date TIMESTAMP NOT NULL,
+    id BIGINT NOT NULL UNIQUE AUTO_INCREMENT,
+    created_date TIMESTAMP,
+    last_modified_date TIMESTAMP,
     version BIGINT NOT NULL,
     title VARCHAR(200) NOT NULL,
     description TEXT,

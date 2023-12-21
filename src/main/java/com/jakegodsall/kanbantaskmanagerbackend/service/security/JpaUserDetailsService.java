@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,10 @@ public class JpaUserDetailsService implements UserDetailsService {
     }
 
     private Set<? extends GrantedAuthority> convertToGrantedAuthorities(Set<Authority> authorities) {
+
+        if (authorities == null || authorities.isEmpty())
+            return new HashSet<>();
+
         return authorities.stream()
                 .map(Authority::getPermission)
                 .map(SimpleGrantedAuthority::new)

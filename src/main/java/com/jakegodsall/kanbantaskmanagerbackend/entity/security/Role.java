@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -28,7 +29,7 @@ public class Role extends BaseEntity {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id")
     )
-    private Set<Authority> authorities;
+    private Set<Authority> authorities = new HashSet<>();
 
     @Override
     public String toString() {

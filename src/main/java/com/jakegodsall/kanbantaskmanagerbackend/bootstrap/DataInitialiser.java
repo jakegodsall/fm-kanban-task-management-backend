@@ -28,7 +28,7 @@ public class DataInitialiser implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        initializeTodoTasks();
+//        initializeTodoTasks();
     }
 
     private void initializeSubtasks() {

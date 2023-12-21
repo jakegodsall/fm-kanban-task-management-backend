@@ -37,6 +37,9 @@ public class User extends BaseEntity {
     @Builder.Default
     private boolean isEnabled = true;
 
+    @Transient
+    private Set<Authority> authorities;
+
     @ManyToMany
     @JoinTable(
             name = "user_role",
